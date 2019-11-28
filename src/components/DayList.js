@@ -4,8 +4,7 @@ import DayListItem from "components/DayListItem.js";
 
 
 export default function DayList(props) {
-  console.log("props22222 ====>", props)
-  const days = props.days.map(day => {
+  const days = props.days.map((day) => {
     return (
       <DayListItem
         key={day.id}
