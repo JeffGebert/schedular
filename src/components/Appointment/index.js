@@ -1,16 +1,104 @@
 import "components/Appointment/styles.scss";
-import React, { Fragment } from 'react'
+import React from 'react'
 import Header from "components/Appointment/Header.js"
 import Empty from "components/Appointment/Empty.js"
 import Show from "components/Appointment/Show.js"
+import Status from "components/Appointment/Status.js"
+import Form from "components/Appointment/Form.js"
+import Confirm from "components/Appointment/Confirm.js"
+import Error from "components/Appointment/Error.js"
+import useVisualMode from "hooks/useVisualMode.js"
+import bookInterview from "components/Application.js"
+import cancelInterview from "components/Application.js"
 
 
 export default function Appointment(props) {
+  const EMPTY = "EMPTY";
+  const SHOW = "SHOW";
+  const CREATE = "CREATE";
+  const SAVING = "SAVING";
+  const DELETING = "DELETING";
+  const CONFIRM = "CONFIRM";
+  const EDIT = "EDIT";
+  const ERROR = "ERROR";
+
+  const { mode = EMPTY, transition, back } = useVisualMode(
+    props.interview ? SHOW : EMPTY
+
+  );
+
+  function save(name, interviewer) {
+    const interview = {
+      student: name,
+      interviewer
+    };
+
+    transition(SAVING)
+    props.bookInterview(props.id, interview).then(
+      () => transition(SHOW))
+      .catch(error => transition(ERROR))
+    
+
+
+  }
+
+  function edit() {
+    transition(EDIT)
+  }
+
+  function confirm() {
+    transition(CONFIRM)
+
+
+  }
+  function cancel() {
+    transition(SHOW)
+  }
+
+  function deleteAppt(name, interview) {
+      transition(DELETING)
+      props.cancelInterview(props.id, interview).then(
+        () => transition(EMPTY))
+        .catch(error => transition(ERROR))
+      
+
+  }
 
   return(
     <article className="appointment"> 
       <Header time={props.time} />
-      {props.interview ? <Show student={props.interview.student} interviewer={props.interview.interviewer.name} time={props.time}/> : <Empty/>}
+      {mode === EMPTY && <Empty onAdd={()=> transition(CREATE)} />}
+      {mode === SHOW && props.interview &&(
+      <Show
+      student={props.interview.student}
+      interviewer={props.interview}
+      onDelete={confirm}
+      onEdit={edit}
+      />)}
+      {mode === EDIT && <Form
+       interviewers = {props.interviewers}
+       onAdd={()=> transition(CREATE)}
+       onCancel={()=>transition(SHOW)}
+       onSave={save}
+       name={props.interview.student}
+       interviewer={props.interview.interviewer.id}
+       />}
+      {mode === CREATE && <Form
+       interviewers = {props.interviewers}
+       onAdd={()=> transition(CREATE)}
+       onCancel={()=>back()}
+       onSave={save}
+       />}
+       {mode === SAVING && <Status message={SAVING}/>}
+       {mode === DELETING && <Status message={DELETING}/>}
+       {mode === CONFIRM && <Confirm cancel={cancel} delete={deleteAppt}/>}
+       {mode === ERROR && <Error
+
+       onClick={()=>back()}
+
+       />}
+
+
     </article>
   );
 
