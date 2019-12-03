@@ -1,52 +1,72 @@
 import React, {useEffect, useReducer} from 'react'
 import axios from 'axios';
 
-export default function useApplicationData(initial) {
+const SET_DAY = "SET_DAY";
+const SET_APPLICATION_DATA = "SET_APPLICATION_DATA";
+const SET_INTERVIEW = "SET_INTERVIEW";
 
-  const [state, setState] = useState({
+function reducer(state, action) {
+  switch (action.type) {
+    case SET_DAY:
+      return { ...state, day:action.day};
+    case SET_APPLICATION_DATA:
+      return { ...state, days:action.days, appointments: action.appointments, interviewers: action.interviewers}
+    case SET_INTERVIEW: {
+      const appointment = {
+        ...state.appointments[action.id],
+        interview: { ...action.interview }
+      };
+      const appointments = {
+        ...state.appointments,
+        [action.id]: appointment
+      };
+      
+      return {...state, appointments}
+    }
+    default:
+
+      throw new Error(
+        `Tried to reduce with unsupported action type: ${action.type}`
+      );
+
+
+  }
+};
+
+
+
+
+export default function useApplicationData(initial) {
+  
+  
+  
+  const [state, dispatch] = useReducer(reducer,{
     day:"Monday",
     days:[],
     appointments: {}
   });
-
-
-  const setDay = day => setState(prev => ({ ...prev, day }));
-
+  
+  
+  const setDay = day => dispatch({type: SET_DAY, day});
+  
   function bookInterview(id, interview) {
-    const appointment = {
-      ...state.appointments[id],
-      interview: { ...interview }
-    };
-    const appointments = {
-      ...state.appointments,
-      [id]: appointment
-    };
-
-
-    return axios.put(`http://localhost:8001/api/appointments/${appointment.id}`, {interview})
-    .then(
-    setState((state) => ({...state, appointments}))
-    )
+    
+    return axios.put(`http://localhost:8001/api/appointments/${id}`, {interview})
+    .then(()=> {
+      dispatch({ type: SET_INTERVIEW, id, interview });
+    })
     
   }
-
+  
   function cancelInterview(id, interview) {
-    const appointment = {
-      ...state.appointments[id],
-      interview: null
-    };
-    const appointments = {
-      ...state.appointments,
-      [id]: appointment
-    };
-
-
-    return axios.delete(`http://localhost:8001/api/appointments/${appointment.id}`, {interview})
-    .then(
-    setState((state) => ({...state, appointments}))
-    )
-
     
+    
+    return axios.delete(`http://localhost:8001/api/appointments/${id}`, {interview})
+    .then(()=> {
+      
+      dispatch({ type: SET_INTERVIEW, id, interview: null});
+
+    })
     
   };
 
@@ -58,7 +78,7 @@ export default function useApplicationData(initial) {
       axios.get(`http://localhost:8001/api/interviewers`),
 
     ]).then((all) => {
-      setState(prev => ({...prev, ...{days:all[0].data, appointments:all[1].data, interviewers:all[2].data}}))
+      dispatch( {type: SET_APPLICATION_DATA, days:all[0].data, appointments:all[1].data, interviewers:all[2].data})
     });
   }, []);
 
@@ -71,24 +91,4 @@ return {
       cancelInterview
 };
 
-}
-
-const SET_DAY = "SET_DAY";
-const SET_APPLICATION_DATA = "SET_APPLICATION_DATA";
-const SET_INTERVIEW = "SET_INTERVIEW";
-
-function reducer(state, action) {
-  switch (action.type) {
-    case SET_DAY:
-      return { /* insert logic */ }
-    case SET_APPLICATION_DATA:
-      return { /* insert logic */ }
-    case SET_INTERVIEW: {
-      return /* insert logic */
-    }
-    default:
-      throw new Error(
-        `Tried to reduce with unsupported action type: ${action.type}`
-      );
-  }
 }
