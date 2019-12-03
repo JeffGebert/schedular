@@ -2,6 +2,7 @@ import React, {useEffect, useReducer} from 'react'
 import axios from 'axios';
 
 const SET_DAY = "SET_DAY";
+const SET_DAYS = "SET_DAYS";
 const SET_APPLICATION_DATA = "SET_APPLICATION_DATA";
 const SET_INTERVIEW = "SET_INTERVIEW";
 
@@ -9,6 +10,8 @@ function reducer(state, action) {
   switch (action.type) {
     case SET_DAY:
       return { ...state, day:action.day};
+    case SET_DAYS:
+      return { ...state, days:action.days};
     case SET_APPLICATION_DATA:
       return { ...state, days:action.days, appointments: action.appointments, interviewers: action.interviewers}
     case SET_INTERVIEW: {
@@ -45,8 +48,11 @@ export default function useApplicationData(initial) {
     days:[],
     appointments: {}
   });
+
+//   axios.get(`http://localhost:8001/api/days`).then((res) => {
+//         dispatch( { type: SET_DAYS, days:res.data})
   
-  
+// })
   const setDay = day => dispatch({type: SET_DAY, day});
   
   function bookInterview(id, interview) {
@@ -54,10 +60,12 @@ export default function useApplicationData(initial) {
     return axios.put(`http://localhost:8001/api/appointments/${id}`, {interview})
     .then(()=> {
       dispatch({ type: SET_INTERVIEW, id, interview });
-    })
-    
-  }
-  
+
+      axios.get(`http://localhost:8001/api/days`).then((res) => {
+         dispatch( { type: SET_DAYS, days:res.data})
+      })
+  })
+}
   function cancelInterview(id, interview) {
     
     
@@ -65,10 +73,18 @@ export default function useApplicationData(initial) {
     .then(()=> {
       
       dispatch({ type: SET_INTERVIEW, id, interview: null});
-
+      dispatch({ type: SET_INTERVIEW, id, interview });
+      return axios.get(`http://localhost:8001/api/days`)
+      .then((res)=> {
+        dispatch({ type: SET_INTERVIEW, id, interview });
+        axios.get(`http://localhost:8001/api/days`).then((res) => {
+        dispatch( { type: SET_DAYS, days:res.data})
+     })
+      })
     })
-    
-  };
+  
+  }
+
 
 
   useEffect(() => {
@@ -82,7 +98,7 @@ export default function useApplicationData(initial) {
     });
   }, []);
 
-      
+   
   
 return { 
       state,
@@ -90,5 +106,5 @@ return {
       bookInterview,
       cancelInterview
 };
-
 }
+  
