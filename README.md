@@ -5,6 +5,14 @@ Interview Scheduler allows a user to create, edit, and delete appointments with 
 
 Install dependencies with `npm install`.
 
+## Getting Started
+
+1. Fork this repository, then clone it.
+2. Install the dependencies using the `npm install` command.
+3. Start the Webpack Development Server using`npm start`. The app will be served at <http://localhost:8000/>.
+4. Go to <http://localhost:8000/> in your browser.
+5. Enjoy the full features of the website (Look at the remaining spots for a given day and the available interviewers)
+
 ## Running Webpack Development Server
 
 ```sh
