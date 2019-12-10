@@ -21,3 +21,8 @@ npm test
 ```sh
 npm run storybook
 ```
+## Screenshots
+
+!["Appointment Screen View"](https://github.com/JeffGebert/schedular/blob/master/docs/Appointment.png?raw=true)
+!["Create Appointment View"](https://github.com/JeffGebert/schedular/blob/master/docs/Create.png?raw=true)
+!["Edit Appointment View"](https://github.com/JeffGebert/schedular/blob/master/docs/Edit.png?raw=true)
