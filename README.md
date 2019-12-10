@@ -29,3 +29,15 @@ npm run storybook
 !["Edit Appointment View"](https://github.com/JeffGebert/schedular/blob/master/docs/Edit.png?raw=true)
 
 
+## Dependencies
+
+axios
+classnames
+normalize.css
+react
+react-dom
+react-scripts
+react-test-renderer
+
+
+
