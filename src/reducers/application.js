@@ -17,37 +17,34 @@ export default function reducer(state, action) {
       case SET_INTERVIEW: {
         const appointment = {
           ...state.appointments[action.id],
-          interview: { ...action.interview }
+          interview: action.interview ?  { ...action.interview } : null
         };
         const appointments = {
           ...state.appointments,
           [action.id]: appointment
         };
-        
+        const appointmentIds = state.days.find(day => day.name === state.day).appointments;
+        const appointmentsForDay = Object.values(appointments).filter(appointment => appointmentIds.includes(appointment.id))
+        const spots = appointmentsForDay.reduce((totalSpots, appointment) => {
+          if (!appointment.interview) {
+            totalSpots += 1;
+          }
+          return totalSpots;
+        }, 0)
+        const days = state.days.map(day => {
+          if (day.name ===  state.day) {
+            day.spots = spots;
+          }
+          return day
+          
+        })
         return {
           ...state,
+          days,
           appointments
         }
       }
-      case DELETE_INTERVIEW: {
-        console.log("deleting", action.id)
-        const appointment = {
-          ...state.appointments[action.id],
-          interview: null
-        };
-        console.log("appointment", appointment)
-        const appointments = {
-          ...state.appointments,
-          [action.id]: appointment
-        };
-        console.log("appointments", appointments)
-  
-        return {
-          ...state,
-           appointments
-          }
-    
-      }
+      
       default:
   
         throw new Error(

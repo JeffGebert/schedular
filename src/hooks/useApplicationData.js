@@ -21,10 +21,7 @@ export default function useApplicationData(initial) {
     appointments: {}
   });
 
-//   axios.get(`http://localhost:8001/api/days`).then((res) => {
-//         dispatch( { type: SET_DAYS, days:res.data})
-  
-// })
+
   const setDay = day => dispatch({type: SET_DAY, day});
   
   function bookInterview(id, interview) {
@@ -33,9 +30,6 @@ export default function useApplicationData(initial) {
     .then(()=> {
       dispatch({ type: SET_INTERVIEW, id, interview });
 
-      axios.get(`/api/days`).then((res) => {
-         dispatch( { type: SET_DAYS, days:res.data})
-      })
   })
 }
   function cancelInterview(id, interview) {
@@ -43,14 +37,8 @@ export default function useApplicationData(initial) {
     
     return axios.delete(`/api/appointments/${id}`, {interview})
     .then(()=> {
-      
-      dispatch({ type: DELETE_INTERVIEW, id});
-      return axios.get(`/api/days`)
-      .then((res)=> {
-        axios.get(`/api/days`).then((res) => {
-        dispatch( { type: SET_DAYS, days:res.data})
-     })
-      })
+      dispatch({ type: SET_INTERVIEW, id, interview:null});
+  
     })
   
   }
@@ -62,7 +50,6 @@ export default function useApplicationData(initial) {
       axios.get(`/api/interviewers`),
 
     ]).then((all) => {
-      console.log('USING', all[0].data)
       dispatch( {type: SET_APPLICATION_DATA, days:all[0].data, appointments:all[1].data, interviewers:all[2].data})
     });
   }, []);

@@ -87,6 +87,9 @@ describe("Application", () => {
 
     fireEvent.click(getByText(appointment, "Save"));
     expect(getByText(appointment, "SAVING")).toBeInTheDocument();
+    await waitForElement(() => getByText(appointment, "Jeff Gebert"));
+
+
 
     const day = getAllByTestId(container, "day").find(day =>
       queryByText(day, "Monday")
@@ -145,9 +148,6 @@ describe("Application", () => {
      await waitForElement(() => getByText(appointment, "Error"));
      expect(getByText(appointment, "Error")).toBeInTheDocument();
      fireEvent.click(queryByAltText(appointment, "Close"));
-
-
-
 
 
 
