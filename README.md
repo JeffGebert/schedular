@@ -1,4 +1,5 @@
 # Interview Scheduler
+Interview Scheduler allows a user to create, edit, and delete appointments with a list of possible interviewers.  The sidebar updates with the availability of spots remaining for each day of the week.
 
 ## Setup
 
@@ -26,3 +27,5 @@ npm run storybook
 !["Appointment Screen View"](https://github.com/JeffGebert/schedular/blob/master/docs/Appointment.png?raw=true)
 !["Create Appointment View"](https://github.com/JeffGebert/schedular/blob/master/docs/Create.png?raw=true)
 !["Edit Appointment View"](https://github.com/JeffGebert/schedular/blob/master/docs/Edit.png?raw=true)
+
+
