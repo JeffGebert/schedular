@@ -31,13 +31,13 @@ npm run storybook
 
 ## Dependencies
 
-axios
-classnames
-normalize.css
-react
-react-dom
-react-scripts
-react-test-renderer
+*axios
+*classnames
+*normalize.css
+*react
+*react-dom
+*react-scripts
+*react-test-renderer
 
 
 
