@@ -1,9 +1,6 @@
 # Interview Scheduler
 Interview Scheduler allows a user to create, edit, and delete appointments with a list of possible interviewers.  The sidebar updates with the availability of spots remaining for each day of the week.
 
-## Setup
-
-Install dependencies with `npm install`.
 
 ## Getting Started
 
