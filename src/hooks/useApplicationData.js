@@ -3,10 +3,8 @@ import axios from 'axios';
 
 import reducer, {
   SET_DAY,
-  SET_DAYS,
   SET_APPLICATION_DATA,
   SET_INTERVIEW,
-  DELETE_INTERVIEW
 
 } from "../reducers/application";
 
