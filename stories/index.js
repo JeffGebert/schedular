@@ -6,14 +6,14 @@ import DayListItem from "components/DayListItem";
 import DayList from "components/DayList";
 import InterviewerList from "components/InterviewerList"
 import InterviewerListItem from "components/InterviewerListItem"
-import Appointment from "components/Appointment"
-import Header from "components/Appointment/Header.js"
-import Empty from "components/Appointment/Empty.js"
-import Show from "components/Appointment/Show.js"
-import Confirm from "components/Appointment/Confirm.js"
-import Status from "components/Appointment/Status.js"
-import Error from "components/Appointment/Error.js"
-import Form from "components/Appointment/Form.js"
+import Appointment from "components/Appointment/Index/Index"
+import Header from "components/Appointment/Header/Header.js/index.js"
+import Empty from "components/Appointment/Empty/Empty.js/index.js"
+import Show from "components/Appointment/Show/Show.js/index.js"
+import Confirm from "components/Appointment/Confirm/Confirm.js/index.js"
+import Status from "components/Appointment/Status/Status.js/index.js"
+import Error from "components/Appointment/Error/Error.js/index.js"
+import Form from "components/Appointment/Form/Form.js/index.js"
 
 
 

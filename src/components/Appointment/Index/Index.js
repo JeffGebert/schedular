@@ -1,15 +1,15 @@
-import "components/Appointment/styles.scss";
+import "components/Appointment/Show/Show.scss";
 import React from 'react'
-import Header from "components/Appointment/Header.js"
-import Empty from "components/Appointment/Empty.js"
-import Show from "components/Appointment/Show.js"
-import Status from "components/Appointment/Status.js"
-import Form from "components/Appointment/Form.js"
-import Confirm from "components/Appointment/Confirm.js"
-import Error from "components/Appointment/Error.js"
+import Header from "components/Appointment/Header/Header.js"
+import Empty from "components/Appointment/Empty/Empty.js"
+import Show from "components/Appointment/Show/Show.js"
+import Status from "components/Appointment/Status/Status.js"
+import Form from "components/Appointment/Form/Form.js"
+import Confirm from "components/Appointment/Confirm/Confirm.js"
+import Error from "components/Appointment/Error/Error.js"
 import useVisualMode from "hooks/useVisualMode.js"
-import bookInterview from "components/Application.js"
-import cancelInterview from "components/Application.js"
+
+
 
 
 export default function Appointment(props) {
