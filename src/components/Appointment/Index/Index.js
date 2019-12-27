@@ -1,5 +1,5 @@
 import "components/Appointment/Show/Show.scss";
-import React from 'react'
+import React, {useEffect} from 'react'
 import Header from "components/Appointment/Header/Header.js"
 import Empty from "components/Appointment/Empty/Empty.js"
 import Show from "components/Appointment/Show/Show.js"
@@ -58,10 +58,22 @@ export default function Appointment(props) {
       props.cancelInterview(props.id, interview).then(
         () => transition(EMPTY))
         .catch(error => transition(ERROR))
+
       
 
   }
 
+  
+  useEffect(() => {
+    if (props.interview && mode === EMPTY) {
+     transition(SHOW);
+    }
+    if (props.interview === null && mode === SHOW) {
+     transition(EMPTY);
+    }
+   }, [props.interview, transition, mode]);
+  
+  
   return(
     <article className="appointment" data-testid="appointment"> 
       <Header time={props.time} />

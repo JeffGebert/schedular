@@ -52,6 +52,25 @@ export default function useApplicationData(initial) {
     });
   }, []);
 
+
+  useEffect(() => {
+    var exampleSocket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
+    exampleSocket.onopen = function (event) {
+      exampleSocket.send("ping"); 
+    };
+    exampleSocket.onmessage = function (event) {
+      let msg = JSON.parse(event.data);
+      let id = msg.id;
+      let interview = msg.interview;
+      switch(msg.type) {
+        case "SET_INTERVIEW":
+        dispatch({ type: SET_INTERVIEW, id, interview });
+        break;
+        
+      }
+    }
+  }, []);
+
    
   
 return { 
